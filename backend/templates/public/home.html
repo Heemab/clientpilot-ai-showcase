@@ -1,0 +1,721 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+
+{% block title %}
+ClientPilot AI
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================
+     HERO SECTION
+========================= -->
+
+<section class="hero animate-on-scroll" id="hero">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+
+                <span class="badge bg-primary mb-3">
+
+                    AI Client Acquisition Engine
+
+                </span>
+
+                <h1 class="display-3 fw-bold mb-4">
+
+                    Win More Clients
+                    <br>
+                    with AI
+
+                </h1>
+
+                <p class="lead mb-4">
+
+                    Discover businesses, analyse websites,
+                    generate winning proposals and manage
+                    your sales pipeline from one intelligent platform.
+
+                </p>
+
+                <div class="d-flex flex-wrap gap-3">
+
+                    <a href="{% url 'accounts:login' %}"
+                       class="btn btn-primary btn-lg">
+
+                        Login
+
+                    </a>
+
+                    <a href="#features"
+                       class="btn btn-outline-primary btn-lg">
+
+                        Learn More
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     FEATURES SECTION
+========================= -->
+
+<section class="section animate-on-scroll" id="features">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="section-title">
+
+                Everything You Need to Win More Clients
+
+            </h2>
+
+            <p class="section-subtitle">
+
+                ClientPilot AI combines lead discovery,
+                website intelligence, proposal generation,
+                outreach automation and CRM into one
+                intelligent platform.
+
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="feature-card">
+
+                    <i class="bi bi-search"></i>
+
+                    <h4>AI Lead Discovery</h4>
+
+                    <p>
+
+                        Find qualified businesses that match
+                        your ideal customer profile using
+                        intelligent search and filtering.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="feature-card">
+
+                    <i class="bi bi-globe"></i>
+
+                    <h4>Website Intelligence</h4>
+
+                    <p>
+
+                        Analyse business websites and uncover
+                        SEO, performance, accessibility and
+                        conversion opportunities.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="feature-card">
+
+                    <i class="bi bi-file-earmark-text"></i>
+
+                    <h4>Proposal Generator</h4>
+
+                    <p>
+
+                        Generate professional client proposals
+                        in minutes with rule-based recommendations.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="feature-card">
+
+                    <i class="bi bi-envelope-paper"></i>
+
+                    <h4>Outreach Automation</h4>
+
+                    <p>
+
+                        Draft personalised outreach emails,
+                        manage campaigns and track responses.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="feature-card">
+
+                    <i class="bi bi-people"></i>
+
+                    <h4>CRM</h4>
+
+                    <p>
+
+                        Manage leads, opportunities,
+                        conversations and follow-ups
+                        from one central workspace.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="feature-card">
+
+                    <i class="bi bi-graph-up-arrow"></i>
+
+                    <h4>Opportunity Analytics</h4>
+
+                    <p>
+
+                        Prioritise the highest-value prospects
+                        with intelligent opportunity scoring
+                        and actionable insights.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     HOW IT WORKS
+========================= -->
+
+<section class="section animate-on-scroll" id="how-it-works">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="section-title">
+
+                How ClientPilot AI Works
+
+            </h2>
+
+            <p class="section-subtitle">
+
+                A streamlined workflow that helps you discover prospects,
+                analyze opportunities, generate proposals and close more clients.
+
+            </p>
+
+        </div>
+
+        <div class="row text-center g-4">
+
+            <div class="col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="display-5 mb-3">
+
+                        <i class="bi bi-search"></i>
+
+                    </div>
+
+                    <h3>
+
+                        Discover
+
+                    </h3>
+
+                    <p>
+
+                        Search thousands of businesses and identify
+                        high-potential prospects in minutes.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="display-5 mb-3">
+
+                        <i class="bi bi-cpu"></i>
+
+                    </div>
+
+                    <h3>
+
+                        Analyze
+
+                    </h3>
+
+                    <p>
+
+                        Run intelligent website audits and uncover
+                        opportunities that matter to each prospect.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="display-5 mb-3">
+
+                        <i class="bi bi-trophy"></i>
+
+                    </div>
+
+                    <h3>
+
+                        Win
+
+                    </h3>
+
+                    <p>
+
+                        Generate tailored proposals, manage outreach,
+                        and convert more opportunities into clients.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     PRODUCT SHOWCASE
+========================= -->
+
+<section class="section animate-on-scroll section-gradient" id="showcase">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+
+                <span class="badge bg-primary mb-3">
+                    PRODUCT PREVIEW
+                </span>
+
+                <h2 class="section-title">
+
+                    Everything You Need
+                    To Grow Your Agency
+
+                </h2>
+
+                <p class="section-subtitle text-start mb-4">
+
+                    ClientPilot AI gives freelancers, agencies and consultants
+                    one intelligent workspace to discover leads, audit websites,
+                    generate proposals, automate outreach and manage clients.
+
+                </p>
+
+                <div class="row gy-3">
+
+                    <div class="col-6">
+                        <p>✅ AI Lead Discovery</p>
+                    </div>
+
+                    <div class="col-6">
+                        <p>✅ Website Intelligence</p>
+                    </div>
+
+                    <div class="col-6">
+                        <p>✅ Proposal Generator</p>
+                    </div>
+
+                    <div class="col-6">
+                        <p>✅ Outreach Automation</p>
+                    </div>
+
+                    <div class="col-6">
+                        <p>✅ CRM</p>
+                    </div>
+
+                    <div class="col-6">
+                        <p>✅ Opportunity Analytics</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     WHY CHOOSE US
+========================= -->
+
+<section class="section animate-on-scroll section-dark">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <span class="badge bg-primary mb-3">
+
+                WHY CLIENTPILOT AI
+
+            </span>
+
+            <h2 class="section-title">
+
+                Stop Switching Between Multiple Tools
+
+            </h2>
+
+            <p class="section-subtitle">
+
+                Replace disconnected workflows with one intelligent platform
+                built specifically for freelancers, agencies and consultants.
+
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center">
+
+                    <div class="display-5">⚡</div>
+
+                    <h4>Save Time</h4>
+
+                    <p>
+                        Automate repetitive prospecting and proposal tasks.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center">
+
+                    <div class="display-5">🎯</div>
+
+                    <h4>Better Leads</h4>
+
+                    <p>
+                        Focus on businesses with the highest opportunity score.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center">
+
+                    <div class="display-5">📈</div>
+
+                    <h4>Increase Revenue</h4>
+
+                    <p>
+                        Spend more time closing deals instead of searching.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center">
+
+                    <div class="display-5">🤖</div>
+
+                    <h4>AI Powered</h4>
+
+                    <p>
+                        Let AI help analyse, prioritise and generate client-ready content.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FAQ
+========================= -->
+
+<section class="section animate-on-scroll section-dark" id="faq">
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <span class="badge bg-primary mb-3">
+
+                FAQ
+
+            </span>
+
+            <h2 class="section-title">
+
+                Frequently Asked Questions
+
+            </h2>
+
+            <p class="section-subtitle">
+
+                Everything you need to know before using ClientPilot AI.
+
+            </p>
+
+        </div>
+
+        <div class="accordion" id="faqAccordion">
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq1">
+                        What is ClientPilot AI?
+                    </button>
+                </h2>
+
+                <div id="faq1"
+                     class="accordion-collapse collapse show"
+                     data-bs-parent="#faqAccordion">
+
+                    <div class="accordion-body">
+
+                        ClientPilot AI is an intelligent client acquisition
+                        platform that helps agencies, consultants and freelancers
+                        discover prospects, analyse websites, generate proposals
+                        and manage outreach from one workspace.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+
+                    <button class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq2">
+
+                        Who is ClientPilot AI for?
+
+                    </button>
+
+                </h2>
+
+                <div id="faq2"
+                     class="accordion-collapse collapse"
+                     data-bs-parent="#faqAccordion">
+
+                    <div class="accordion-body">
+
+                        It's designed for freelancers, digital agencies,
+                        consultants and service businesses that want a more
+                        efficient client acquisition workflow.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+
+                    <button class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq3">
+
+                        Does it generate proposals automatically?
+
+                    </button>
+
+                </h2>
+
+                <div id="faq3"
+                     class="accordion-collapse collapse"
+                     data-bs-parent="#faqAccordion">
+
+                    <div class="accordion-body">
+
+                        Yes. ClientPilot AI helps generate professional proposal
+                        drafts based on the information gathered about each
+                        prospect.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+
+                    <button class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq4">
+
+                        Can I manage my leads?
+
+                    </button>
+
+                </h2>
+
+                <div id="faq4"
+                     class="accordion-collapse collapse"
+                     data-bs-parent="#faqAccordion">
+
+                    <div class="accordion-body">
+
+                        Yes. Built-in CRM features let you organise prospects,
+                        track conversations and monitor your sales pipeline.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     FINAL CALL TO ACTION
+========================= -->
+
+<section class="section animate-on-scroll section-gradient">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-xl-8 text-center">
+
+                <span class="badge bg-primary mb-3">
+
+                    START TODAY
+
+                </span>
+
+                <h2 class="display-4 fw-bold mb-4">
+
+                    Your Next Client Is Waiting.
+                </h2>
+
+                <p class="lead mb-5">
+
+                    Stop wasting hours searching for prospects.
+                    Let ClientPilot AI discover opportunities,
+                    analyse websites and help you close more deals.
+
+                </p>
+
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+
+                    <a href="{% url 'accounts:register' %}" class="btn btn-primary">
+                        🚀 Try the Local Demo
+                    </a>
+
+                    <a href="#features"
+                       class="btn btn-outline-light btn-lg">
+
+                        Explore Features
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container my-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1>AI Outreach Package</h1>
+
+            <p class="text-muted mb-0">
+                {{ outreach.proposal.lead.company_name }}
+            </p>
+
+        </div>
+
+        <a href="{% url 'proposals:proposal_detail' outreach.proposal.id %}"
+           class="btn btn-secondary">
+            ← Back to Proposal
+        </a>
+
+    </div>
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+            <strong>Email Subject</strong>
+        </div>
+
+        <div class="card-body">
+            {{ outreach.subject }}
+        </div>
+
+    </div>
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+            <strong>Cold Email</strong>
+        </div>
+
+        <div class="card-body">
+
+            <pre style="white-space: pre-wrap; font-family: inherit;">{{ outreach.cold_email }}</pre>
+
+        </div>
+
+    </div>
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+            <strong>Follow-up #1</strong>
+        </div>
+
+        <div class="card-body">
+
+            <pre style="white-space: pre-wrap; font-family: inherit;">{{ outreach.follow_up_1 }}</pre>
+
+        </div>
+
+    </div>
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+            <strong>Follow-up #2</strong>
+        </div>
+
+        <div class="card-body">
+
+            <pre style="white-space: pre-wrap; font-family: inherit;">{{ outreach.follow_up_2 }}</pre>
+
+        </div>
+
+    </div>
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+            <strong>LinkedIn Message</strong>
+        </div>
+
+        <div class="card-body">
+
+            <pre style="white-space: pre-wrap; font-family: inherit;">{{ outreach.linkedin_message }}</pre>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-header">
+            <strong>WhatsApp Message</strong>
+        </div>
+
+        <div class="card-body">
+
+            <pre style="white-space: pre-wrap; font-family: inherit;">{{ outreach.whatsapp_message }}</pre>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,184 @@
+<nav class="col-md-2 d-md-block bg-dark sidebar vh-100 p-0">
+
+    <div class="position-sticky">
+
+        <div class="text-center py-4 border-bottom border-secondary">
+
+            <h4 class="text-white mb-0">
+                ClientPilot AI
+            </h4>
+
+            <small class="text-light">
+                AI Client Acquisition Engine
+            </small>
+
+        </div>
+
+        <ul class="nav flex-column mt-3">
+
+            {% if user.username == "demo" %}
+
+                <!-- ===================================================== -->
+                <!-- DEMO USER -->
+                <!-- ===================================================== -->
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'dashboard:index' %}">
+                        📊 Dashboard
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'discovery:index' %}">
+                        🔍 Discovery Engine
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'leads:list' %}">
+                        👥 Leads
+                    </a>
+                </li>
+
+                <li class="mt-4 mb-2 px-3">
+                    <small class="text-secondary text-uppercase">
+                        Premium Features
+                    </small>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-secondary" href="{% url 'public:demo' %}">
+                        🔒 Website Intelligence
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-secondary" href="{% url 'public:demo' %}">
+                        🔒 AI Proposal Generator
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-secondary" href="{% url 'public:demo' %}">
+                        🔒 Outreach Automation
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-secondary" href="{% url 'public:demo' %}">
+                        🔒 CRM Pipeline
+                    </a>
+                </li>
+
+                <!-- Calendar remains locked in demo -->
+                <li class="nav-item">
+                    <a class="nav-link text-secondary" href="{% url 'public:demo' %}">
+                        🔒 Calendar
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-secondary" href="{% url 'public:demo' %}">
+                        🔒 Settings
+                    </a>
+                </li>
+
+                <div class="px-3 mt-5">
+
+                    <div class="card border-0 bg-secondary bg-opacity-10">
+
+                        <div class="card-body">
+
+                            <h6 class="text-white">
+                                🚀 Unlock Full Platform
+                            </h6>
+
+                            <p class="text-light small mb-3">
+                                Experience Website Intelligence,
+                                AI Proposal Generation,
+                                Outreach Automation,
+                                CRM Pipeline and AI-powered client acquisition
+                                during a live walkthrough.
+                            </p>
+
+                            <a href="{% url 'public:contact' %}"
+                               class="btn btn-primary btn-sm w-100">
+                                Local Demo Guide
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% else %}
+
+                <!-- ===================================================== -->
+                <!-- FULL PLATFORM -->
+                <!-- ===================================================== -->
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'dashboard:index' %}">
+                        📊 Dashboard
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'discovery:index' %}">
+                        🔍 Discovery Engine
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'leads:list' %}">
+                        👥 Leads
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'audits:list' %}">
+                        🌐 Website Intelligence
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'proposals:list' %}">
+                        📄 AI Proposal Generator
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'outreach:outreach_list' %}">
+                        📧 Outreach Automation
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white"
+                       href="{% url 'pipeline:index' %}">
+                        👥 CRM Pipeline
+                    </a>
+                </li>
+
+                <!-- NEW: Calendar -->
+                <li class="nav-item">
+                    <a class="nav-link text-white"
+                       href="{% url 'crm_calendar:index' %}">
+                        📅 Calendar
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">
+                        ⚙️ Settings
+                    </a>
+                </li>
+
+            {% endif %}
+
+        </ul>
+
+    </div>
+
+</nav>

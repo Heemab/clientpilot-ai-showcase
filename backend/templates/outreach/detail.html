@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid my-4">
+
+    <div class="row">
+
+        <!-- ===========================
+             LEFT COLUMN
+        ============================ -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h3 class="mb-0">📧 AI Email Composer</h3>
+
+                        <small class="text-muted">
+                            {{ outreach.proposal.lead.company_name }}
+                        </small>
+
+                    </div>
+
+                    <a href="{% url 'proposals:proposal_detail' outreach.proposal.id %}"
+                       class="btn btn-outline-secondary">
+
+                        ← Proposal
+
+                    </a>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                To
+                            </label>
+
+                            <input
+                                class="form-control"
+                                readonly
+                                value="{{ outreach.proposal.lead.email }}">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Subject
+                            </label>
+
+                            <input
+                                class="form-control"
+                                name="subject"
+                                value="{{ outreach.subject }}">
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Email
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                rows="18"
+                                name="cold_email">{{ outreach.cold_email }}</textarea>
+
+                        </div>
+
+                        <div class="d-flex gap-2">
+
+                            <button
+                                class="btn btn-primary"
+                                type="submit">
+
+                                💾 Save Draft
+
+                            </button>
+
+                    </form>
+
+                    <form
+                        method="post"
+                        action="{% url 'outreach:send_email' outreach.id %}">
+
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            id="send-subject"
+                            name="subject">
+
+                        <input
+                            type="hidden"
+                            id="send-body"
+                            name="cold_email">
+
+                        <button
+                            class="btn btn-success"
+                            type="submit">
+
+                            📧 Send Email
+
+                        </button>
+
+                    </form>
+
+                        </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===========================
+             RIGHT COLUMN
+        ============================ -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header">
+
+                    Prospect
+
+                </div>
+
+                <div class="card-body">
+
+                    <p><strong>Company</strong><br>{{ outreach.proposal.lead.company_name }}</p>
+
+                    <p><strong>Contact</strong><br>{{ outreach.proposal.lead.contact_name }}</p>
+
+                    <p><strong>Email</strong><br>{{ outreach.proposal.lead.email }}</p>
+
+                    <p><strong>Status</strong><br>
+
+                        <span class="badge bg-primary">
+
+                            {{ outreach.get_status_display }}
+
+                        </span>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+
+                    Activity Timeline
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if outreach.events.all %}
+
+                        <ul class="list-group list-group-flush">
+
+                            {% for event in outreach.events.all %}
+
+                                <li class="list-group-item">
+
+                                    <strong>
+
+                                        {{ event.get_event_type_display }}
+
+                                    </strong>
+
+                                    <br>
+
+                                    <small class="text-muted">
+
+                                        {{ event.created_at|date:"M d, Y H:i" }}
+
+                                    </small>
+
+                                    {% if event.created_by %}
+
+                                        <br>
+
+                                        <small>
+
+                                            by {{ event.created_by }}
+
+                                        </small>
+
+                                    {% endif %}
+
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    {% else %}
+
+                        <p class="text-muted">
+
+                            No activity yet.
+
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.querySelector('form[action$="send/"]').addEventListener("submit", function () {
+
+    document.getElementById("send-subject").value =
+        document.querySelector('input[name="subject"]').value;
+
+    document.getElementById("send-body").value =
+        document.querySelector('textarea[name="cold_email"]').value;
+
+});
+
+</script>
+
+{% endblock %}

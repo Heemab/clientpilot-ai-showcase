@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Premium Features | ClientPilot AI{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge bg-primary fs-6 mb-3">
+            LOCAL DEMONSTRATION
+        </span>
+
+        <h1 class="display-5 fw-bold">
+            Unlock the Full Power of ClientPilot AI
+        </h1>
+
+        <p class="lead text-muted mt-3">
+            You're currently exploring the public demo.
+            The modules below are available during a live walkthrough and consultation.
+        </p>
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h4>
+                        🌐 Website Intelligence
+                    </h4>
+
+                    <p class="text-muted">
+                        Rule-based website assessments that identify SEO issues,
+                        performance bottlenecks, accessibility improvements,
+                        conversion opportunities and technical recommendations.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h4>
+                        📄 AI Proposal Generator
+                    </h4>
+
+                    <p class="text-muted">
+                        Generate professional proposals in seconds with pricing,
+                        executive summaries, recommendations and branded PDF exports.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h4>
+                        📧 Outreach Automation
+                    </h4>
+
+                    <p class="text-muted">
+                        Personalised cold email campaigns, follow-up sequences,
+                        tracking and engagement insights powered by AI.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h4>
+                        👥 CRM Pipeline
+                    </h4>
+
+                    <p class="text-muted">
+                        Manage leads from discovery through qualification,
+                        proposals, follow-up and closed deals with one integrated workflow.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-lg border-0 mt-5">
+
+        <div class="card-body text-center py-5">
+
+            <h2 class="mb-3">
+                Interested in the Full Platform?
+            </h2>
+
+            <p class="text-muted mb-4">
+
+                Schedule a personalised walkthrough to see how ClientPilot AI
+                discovers prospects, audits websites, generates proposals,
+                automates outreach and manages your complete client acquisition pipeline.
+
+            </p>
+
+            <a href="{% url 'public:contact' %}"
+               class="btn btn-primary btn-lg">
+
+                🚀 Local Demo Guide
+
+            </a>
+
+            <a href="{% url 'dashboard:index' %}"
+               class="btn btn-outline-secondary btn-lg ms-2">
+
+                ← Back to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,450 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Lead Management{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container-fluid">
+
+    <!-- Page Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2>Lead Management</h2>
+    </div>
+
+    <div class="d-flex gap-2">
+
+        <a href="{% url 'dashboard:index' %}"
+           class="btn btn-outline-secondary">
+            ← Back to Dashboard
+        </a>
+
+        <a href="{% url 'leads:create' %}"
+           class="btn btn-primary">
+            + Add Lead
+        </a>
+
+    </div>
+
+</div>
+
+    <!-- Search & Filter -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form method="get">
+
+                <div class="row g-2">
+
+                    <div class="col-lg-6">
+
+                        <input
+                            type="text"
+                            name="q"
+                            class="form-control"
+                            placeholder="Search company, contact, email or website..."
+                            value="{{ query }}"
+                        >
+
+                    </div>
+
+                    <div class="col-lg-3">
+
+                        <select
+                            name="status"
+                            class="form-select">
+
+                            <option value="">All Statuses</option>
+
+                            <option value="new"
+                                {% if status == "new" %}selected{% endif %}>
+                                New
+                            </option>
+
+                            <option value="qualified"
+                                {% if status == "qualified" %}selected{% endif %}>
+                                Qualified
+                            </option>
+
+                            <option value="won"
+                                {% if status == "won" %}selected{% endif %}>
+                                Won
+                            </option>
+
+                            <option value="lost"
+                                {% if status == "lost" %}selected{% endif %}>
+                                Lost
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-lg-2 d-grid">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                    <div class="col-lg-1 d-grid">
+
+                        <a
+                            href="{% url 'leads:list' %}"
+                            class="btn btn-secondary">
+
+                            Reset
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- Leads Table -->
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+
+                            <a
+                                class="text-decoration-none text-dark"
+                                href="?sort={% if sort == 'company_name' %}-company_name{% else %}company_name{% endif %}&q={{ query }}&status={{ status }}">
+
+                                Company
+
+                                {% if sort == "company_name" %}
+                                    ▲
+                                {% elif sort == "-company_name" %}
+                                    ▼
+                                {% endif %}
+
+                            </a>
+
+                        </th>
+
+                        <th>Contact</th>
+
+                        <th>Email</th>
+
+                        <th>
+
+                            <a
+                                class="text-decoration-none text-dark"
+                                href="?sort={% if sort == 'status' %}-status{% else %}status{% endif %}&q={{ query }}&status={{ status }}">
+
+                                Status
+
+                                {% if sort == "status" %}
+                                    ▲
+                                {% elif sort == "-status" %}
+                                    ▼
+                                {% endif %}
+
+                            </a>
+
+                        </th>
+
+                        <th>
+
+                            <a
+                                class="text-decoration-none text-dark"
+                                href="?sort={% if sort == 'priority' %}-priority{% else %}priority{% endif %}&q={{ query }}&status={{ status }}">
+
+                                Priority
+
+                                {% if sort == "priority" %}
+                                    ▲
+                                {% elif sort == "-priority" %}
+                                    ▼
+                                {% endif %}
+
+                            </a>
+
+                        </th>
+
+                        <th>
+
+                            <a
+                                class="text-decoration-none text-dark"
+                                href="?sort={% if sort == 'created_at' %}-created_at{% else %}created_at{% endif %}&q={{ query }}&status={{ status }}">
+
+                                Created
+
+                                {% if sort == "created_at" %}
+                                    ▲
+                                {% elif sort == "-created_at" %}
+                                    ▼
+                                {% endif %}
+
+                            </a>
+
+                        </th>
+
+                        <th width="170">
+
+                            Actions
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for lead in leads %}
+
+                    <tr>
+
+                        <td>
+
+                            <a href="{% url 'leads:lead_detail' lead.pk %}">
+                                {{ lead.company_name }}
+                            </a>
+
+                        </td>
+
+                        <td>{{ lead.contact_name }}</td>
+
+                        <td>{{ lead.email }}</td>
+
+                        <!-- Status -->
+                        <td>
+
+                            {% if lead.status == "new" %}
+
+                                <span class="badge bg-primary">
+                                    New
+                                </span>
+
+                            {% elif lead.status == "qualified" %}
+
+                                <span class="badge bg-info text-dark">
+                                    Qualified
+                                </span>
+
+                            {% elif lead.status == "won" %}
+
+                                <span class="badge bg-success">
+                                    Won
+                                </span>
+
+                            {% elif lead.status == "lost" %}
+
+                                <span class="badge bg-danger">
+                                    Lost
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <!-- Priority -->
+                        <td>
+
+                            {% if lead.priority == "high" %}
+
+                                <span class="badge bg-danger">
+                                    🔴 High
+                                </span>
+
+                            {% elif lead.priority == "medium" %}
+
+                                <span class="badge bg-warning text-dark">
+                                    🟡 Medium
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-success">
+                                    🟢 Low
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <!-- Created -->
+                        <td>
+
+                            {{ lead.created_at|date:"d M Y" }}
+
+                        </td>
+
+                        <!-- Actions -->
+                        <td>
+
+                            <a
+                                href="{% url 'leads:lead_detail' lead.pk %}"
+                                class="btn btn-sm btn-outline-primary">
+
+                                View
+
+                            </a>
+
+                            <a
+                                href="{% url 'leads:lead_edit' lead.pk %}"
+                                class="btn btn-sm btn-outline-success">
+
+                                Edit
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="7" class="text-center text-muted">
+
+                            No leads found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <!-- Pagination -->
+            {% if leads.has_other_pages %}
+
+            <nav class="mt-4">
+
+                <ul class="pagination justify-content-center">
+
+                    {% if leads.has_previous %}
+
+                    <li class="page-item">
+
+                        <a
+                            class="page-link"
+                            href="?page={{ leads.previous_page_number }}&sort={{ sort }}&q={{ query }}&status={{ status }}">
+
+                            Previous
+
+                        </a>
+
+                    </li>
+
+                    {% else %}
+
+                    <li class="page-item disabled">
+
+                        <span class="page-link">
+
+                            Previous
+
+                        </span>
+
+                    </li>
+
+                    {% endif %}
+
+                    {% for num in leads.paginator.page_range %}
+
+                        {% if leads.number == num %}
+
+                            <li class="page-item active">
+
+                                <span class="page-link">
+
+                                    {{ num }}
+
+                                </span>
+
+                            </li>
+
+                        {% else %}
+
+                            <li class="page-item">
+
+                                <a
+                                    class="page-link"
+                                    href="?page={{ num }}&sort={{ sort }}&q={{ query }}&status={{ status }}">
+
+                                    {{ num }}
+
+                                </a>
+
+                            </li>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                    {% if leads.has_next %}
+
+                    <li class="page-item">
+
+                        <a
+                            class="page-link"
+                            href="?page={{ leads.next_page_number }}&sort={{ sort }}&q={{ query }}&status={{ status }}">
+
+                            Next
+
+                        </a>
+
+                    </li>
+
+                    {% else %}
+
+                    <li class="page-item disabled">
+
+                        <span class="page-link">
+
+                            Next
+
+                        </span>
+
+                    </li>
+
+                    {% endif %}
+
+                </ul>
+
+            </nav>
+
+            <div class="text-center text-muted small">
+
+                Showing {{ leads.start_index }}–{{ leads.end_index }}
+                of {{ leads.paginator.count }} leads
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

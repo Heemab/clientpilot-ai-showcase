@@ -1,0 +1,149 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Discovery{% endblock %}
+
+{% block dashboard_content %}
+
+<h2>Discovery Engine</h2>
+
+<div style="margin-bottom:20px;">
+
+    <a href="{% url 'dashboard:index' %}">
+        <button type="button">
+            ← Back to Dashboard
+        </button>
+    </a>
+
+</div>
+
+<!-- Search Form -->
+<form method="post">
+    {% csrf_token %}
+
+    <input
+        type="text"
+        name="query"
+        placeholder="Business type"
+        value="{{ query }}"
+    >
+
+    <select name="location">
+
+        <option value="United States" {% if location == "United States" %}selected{% endif %}>United States</option>
+        <option value="Canada" {% if location == "Canada" %}selected{% endif %}>Canada</option>
+        <option value="United Kingdom" {% if location == "United Kingdom" %}selected{% endif %}>United Kingdom</option>
+        <option value="Australia" {% if location == "Australia" %}selected{% endif %}>Australia</option>
+        <option value="Switzerland" {% if location == "Switzerland" %}selected{% endif %}>Switzerland</option>
+        <option value="Germany" {% if location == "Germany" %}selected{% endif %}>Germany</option>
+        <option value="Netherlands" {% if location == "Netherlands" %}selected{% endif %}>Netherlands</option>
+        <option value="Sweden" {% if location == "Sweden" %}selected{% endif %}>Sweden</option>
+        <option value="Norway" {% if location == "Norway" %}selected{% endif %}>Norway</option>
+        <option value="Denmark" {% if location == "Denmark" %}selected{% endif %}>Denmark</option>
+        <option value="Finland" {% if location == "Finland" %}selected{% endif %}>Finland</option>
+        <option value="Belgium" {% if location == "Belgium" %}selected{% endif %}>Belgium</option>
+        <option value="Ireland" {% if location == "Ireland" %}selected{% endif %}>Ireland</option>
+        <option value="Austria" {% if location == "Austria" %}selected{% endif %}>Austria</option>
+
+    </select>
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+{% if is_synthetic %}
+<p>These are fictional results for the local demo.</p>
+{% endif %}
+
+<!-- Import All -->
+{% if businesses %}
+
+<form method="post"
+      action="{% url 'discovery:import_all' %}"
+      style="display:inline-block; margin-top:15px; margin-bottom:20px;">
+
+    {% csrf_token %}
+
+    <button type="submit">
+        Import All
+    </button>
+
+</form>
+
+{% endif %}
+
+<hr>
+
+{% for business in businesses %}
+
+<div style="padding:15px; border:1px solid #ddd; margin-bottom:20px; border-radius:6px;">
+
+    <h3>{{ business.business_name }}</h3>
+
+    <p>
+        <strong>Category:</strong>
+        {{ business.category|default:"N/A" }}
+    </p>
+
+    <p>
+        <strong>Address:</strong>
+        {{ business.address|default:"N/A" }}
+    </p>
+
+    <p>
+        <strong>Phone:</strong>
+        {{ business.phone|default:"N/A" }}
+    </p>
+
+    <p>
+        <strong>Website:</strong>
+
+        {% if business.website %}
+            <a href="{{ business.website }}" target="_blank">
+                {{ business.website }}
+            </a>
+        {% else %}
+            N/A
+        {% endif %}
+
+    </p>
+
+    <p>
+        <strong>Rating:</strong>
+        {{ business.rating }}
+        ({{ business.reviews }} reviews)
+    </p>
+
+    <div style="display:flex; gap:10px; margin-top:15px;">
+
+    <form method="post"
+          action="{% url 'discovery:import' %}">
+
+        {% csrf_token %}
+
+        <input type="hidden" name="company_name" value="{{ business.business_name }}">
+        <input type="hidden" name="phone" value="{{ business.phone }}">
+        <input type="hidden" name="website" value="{{ business.website }}">
+        <input type="hidden" name="address" value="{{ business.address }}">
+        <input type="hidden" name="category" value="{{ business.category }}">
+        <input type="hidden" name="rating" value="{{ business.rating }}">
+        <input type="hidden" name="reviews" value="{{ business.reviews }}">
+
+        <button type="submit">
+            Import to CRM
+        </button>
+
+    </form>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<p>No businesses found.</p>
+
+{% endfor %}
+
+{% endblock %}

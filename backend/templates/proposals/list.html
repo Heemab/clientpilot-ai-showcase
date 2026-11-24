@@ -1,0 +1,127 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block dashboard_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="mb-1">Proposals</h2>
+
+        <p class="text-muted mb-0">
+            Website growth proposals generated for your leads.
+        </p>
+
+    </div>
+
+    <a href="{% url 'leads:list' %}" class="btn btn-outline-primary">
+        ← Back to Leads
+    </a>
+
+</div>
+
+{% if proposals %}
+
+<div class="card shadow-sm">
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle mb-0">
+
+            <thead class="table-light">
+
+                <tr>
+                    <th>Proposal #</th>
+                    <th>Company</th>
+                    <th>Status</th>
+                    <th>Value</th>
+                    <th>Date</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for proposal in proposals %}
+
+                <tr>
+
+                    <td>{{ proposal.proposal_number }}</td>
+
+                    <td>
+                        <strong>{{ proposal.lead.company_name }}</strong><br>
+                        <small class="text-muted">
+                            {{ proposal.lead.website }}
+                        </small>
+                    </td>
+
+                    <td>
+                        <span class="badge bg-primary">
+                            {{ proposal.get_status_display }}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${{ proposal.estimated_value }}
+                    </td>
+
+                    <td>
+                        {{ proposal.created_at|date:"d M Y" }}
+                    </td>
+
+                    <td class="text-end">
+
+                        <a
+                            href="{% url 'proposals:proposal_detail' proposal.id %}"
+                            class="btn btn-sm btn-primary">
+
+                            View
+
+                        </a>
+
+                        <a
+                            href="{% url 'proposals:proposal_pdf' proposal.id %}"
+                            class="btn btn-sm btn-outline-danger">
+
+                            PDF
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% else %}
+
+<div class="card shadow-sm">
+
+    <div class="card-body text-center py-5">
+
+        <h4>No proposals found</h4>
+
+        <p class="text-muted">
+            Generate a website proposal from a completed website audit.
+        </p>
+
+        <a href="{% url 'leads:list' %}" class="btn btn-primary">
+            View Leads
+        </a>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block dashboard_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="mb-1">
+            📅 CRM Calendar
+        </h2>
+
+        <p class="text-muted mb-0">
+            View all CRM Tasks by due date.
+        </p>
+
+    </div>
+
+</div>
+
+<div class="card shadow-sm border-0">
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+            {{ month }}/{{ year }}
+        </h5>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <table class="table table-bordered table-hover mb-0">
+
+            <thead class="table-light text-center">
+
+                <tr>
+
+                    <th style="width:14.28%">Mon</th>
+                    <th style="width:14.28%">Tue</th>
+                    <th style="width:14.28%">Wed</th>
+                    <th style="width:14.28%">Thu</th>
+                    <th style="width:14.28%">Fri</th>
+                    <th style="width:14.28%">Sat</th>
+                    <th style="width:14.28%">Sun</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for week in calendar_weeks %}
+
+                    <tr>
+
+                        {% for cell in week %}
+
+                            <td style="height:150px; vertical-align:top;">
+
+                                {% if cell %}
+
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+
+                                        {% if cell.is_today %}
+
+                                            <span class="badge bg-primary rounded-pill">
+                                                {{ cell.day }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <strong>
+                                                {{ cell.day }}
+                                            </strong>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                    {% if cell.tasks %}
+
+                                        {% for task in cell.tasks %}
+
+                                            <a href="{% url 'leads:lead_detail' task.lead.id %}"
+                                                class="text-decoration-none">
+
+                                                {% if task.priority == "urgent" %}
+
+                                                    <div class="border rounded p-1 mb-1 bg-danger bg-opacity-10">
+
+                                                {% elif task.priority == "high" %}
+
+                                                    <div class="border rounded p-1 mb-1 bg-warning bg-opacity-25">
+
+                                                {% elif task.priority == "medium" %}
+
+                                                    <div class="border rounded p-1 mb-1 bg-info bg-opacity-10">
+
+                                                {% else %}
+
+                                                    <div class="border rounded p-1 mb-1 bg-light">
+
+                                                {% endif %}
+
+                                                        <div class="fw-semibold small">
+                                                            {{ task.title }}
+                                                        </div>
+
+                                                        <div class="text-muted small">
+                                                            {{ task.lead.company_name }}
+                                                        </div>
+
+                                                        <div class="small">
+
+                                                            {% if task.status == "completed" %}
+
+                                                                <span class="badge bg-success">
+                                                                    Completed
+                                                                </span>
+
+                                                            {% elif task.status == "in_progress" %}
+
+                                                                <span class="badge bg-primary">
+                                                                    In Progress
+                                                                </span>
+
+                                                            {% elif task.status == "cancelled" %}
+
+                                                                <span class="badge bg-secondary">
+                                                                    Cancelled
+                                                                </span>
+
+                                                            {% else %}
+
+                                                                <span class="badge bg-warning text-dark">
+                                                                    To Do
+                                                                </span>
+
+                                                            {% endif %}
+
+                                                        </div>
+
+                                                    </div>
+
+                                            </a>
+
+                                        {% endfor %}
+
+                                    {% else %}
+
+                                        <small class="text-muted">
+                                            No Tasks
+                                        </small>
+
+                                    {% endif %}
+
+                                {% endif %}
+
+                            </td>
+
+                        {% endfor %}
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

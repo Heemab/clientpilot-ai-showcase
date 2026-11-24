@@ -1,0 +1,401 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Website Audit{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-start mb-4">
+
+    <div>
+        <h2>Website Audit</h2>
+
+        <h4>{{ audit.lead.company_name }}</h4>
+
+        <a href="{{ audit.website }}" target="_blank">
+            {{ audit.website }}
+        </a>
+    </div>
+
+    <div class="text-end">
+
+        <form method="post" action="{% url 'proposals:generate_proposal' audit.id %}" class="d-inline">
+{% csrf_token %}
+<button type="submit"
+            class="btn btn-success mb-2">
+            📄 Generate Proposal
+        </button>
+</form>
+
+        <br>
+
+        <a href="{% url 'leads:lead_detail' audit.lead.id %}"
+            class="btn btn-secondary mb-2">
+            ← Back to Lead
+        </a>
+
+        <br>
+
+        <a href="{% url 'leads:list' %}"
+            class="btn btn-outline-secondary">
+            Lead List
+        </a>
+
+    </div>
+
+    </div>
+
+    <!-- =========================
+         Scores
+    ========================== -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h6>Overall Score</h6>
+                    <h2>{{ audit.overall_score }}/100</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h6>SEO</h6>
+                    <h2>{{ audit.seo_score }}/100</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h6>Performance</h6>
+                    <h2>{{ audit.performance_score }}/100</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h6>Accessibility</h6>
+                    <h2>{{ audit.accessibility_score }}/100</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- =========================
+         Business Opportunities
+    ========================== -->
+
+    <div class="card shadow-sm mb-4 border-primary">
+
+        <div class="card-header bg-primary text-white d-flex justify-content-between">
+
+            <strong>
+                💼 Business Opportunities
+            </strong>
+
+            <div class="text-end">
+
+                <div>
+                    <strong>
+                        Estimated Project Value:
+                        ${{ audit.estimated_project_value }}
+                    </strong>
+                </div>
+
+                <small>
+                    Estimated Project Hours:
+                    {{ audit.estimated_project_hours }} hrs
+                </small>
+
+            </div>
+
+        </div>
+
+        {% if audit.opportunities %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover mb-0">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Service</th>
+
+                        <th width="140">Priority</th>
+
+                        <th width="160">Estimated Value</th>
+
+                        <th>Reason</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for item in audit.opportunities %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>{{ item.service }}</strong>
+
+                        </td>
+
+                        <td>
+
+                            {% if item.priority == "Critical" %}
+
+                                <span class="badge bg-danger">
+
+                            {% elif item.priority == "High" %}
+
+                                <span class="badge bg-warning text-dark">
+
+                            {% elif item.priority == "Medium" %}
+
+                                <span class="badge bg-info text-dark">
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                            {% endif %}
+
+                                {{ item.priority }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <strong>${{ item.estimated_value }}</strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ item.reason }}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+            <div class="card-body">
+
+                No opportunities detected.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- =========================
+         Security
+    ========================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <strong>Security</strong>
+
+        </div>
+
+        <table class="table table-bordered mb-0">
+
+            <tr>
+                <th width="300">SSL Enabled</th>
+                <td>{% if audit.ssl_enabled %}✅ Yes{% else %}❌ No{% endif %}</td>
+            </tr>
+
+            <tr>
+                <th>HTTPS Redirect</th>
+                <td>{% if audit.https_redirect %}✅ Yes{% else %}❌ No{% endif %}</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- =========================
+         SEO
+    ========================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <strong>SEO Analysis</strong>
+
+        </div>
+
+        <table class="table table-bordered mb-0">
+
+            <tr><th width="300">Page Title</th><td>{{ audit.page_title|default:"Not Found" }}</td></tr>
+            <tr><th>Meta Description</th><td>{{ audit.meta_description|default:"Not Found" }}</td></tr>
+            <tr><th>H1 Tags</th><td>{{ audit.h1_count }}</td></tr>
+            <tr><th>H2 Tags</th><td>{{ audit.h2_count }}</td></tr>
+            <tr><th>Total Images</th><td>{{ audit.image_count }}</td></tr>
+            <tr><th>Images Missing ALT</th><td>{{ audit.missing_alt_count }}</td></tr>
+            <tr><th>Canonical URL</th><td>{{ audit.canonical_url|default:"Not Found" }}</td></tr>
+
+            <tr>
+                <th>Viewport</th>
+                <td>{% if audit.has_viewport %}✅ Present{% else %}❌ Missing{% endif %}</td>
+            </tr>
+
+            <tr>
+                <th>Open Graph</th>
+                <td>{% if audit.has_open_graph %}✅ Present{% else %}❌ Missing{% endif %}</td>
+            </tr>
+
+            <tr>
+                <th>Twitter Card</th>
+                <td>{% if audit.has_twitter_card %}✅ Present{% else %}❌ Missing{% endif %}</td>
+            </tr>
+
+            <tr>
+                <th>HTML Language</th>
+                <td>{{ audit.html_lang|default:"Not Set" }}</td>
+            </tr>
+
+            <tr>
+                <th>Favicon</th>
+                <td>{% if audit.has_favicon %}✅ Present{% else %}❌ Missing{% endif %}</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- =========================
+         Technology
+    ========================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <strong>Technology Stack</strong>
+
+        </div>
+
+        <table class="table table-bordered mb-0">
+
+            <tr>
+                <th width="250">CMS</th>
+                <td>{{ audit.cms }}</td>
+            </tr>
+
+            <tr>
+                <th>Theme</th>
+                <td>{{ audit.theme }}</td>
+            </tr>
+
+            <tr>
+
+                <th>Detected Technologies</th>
+
+                <td>
+
+                    {% for tech in audit.technologies %}
+
+                        <span class="badge bg-primary me-1 mb-1">
+
+                            {{ tech }}
+
+                        </span>
+
+                    {% empty %}
+
+                        None
+
+                    {% endfor %}
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- =========================
+         Performance
+    ========================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <strong>Performance</strong>
+
+        </div>
+
+        <table class="table table-bordered mb-0">
+
+            <tr>
+
+                <th width="300">Load Time</th>
+
+                <td>{{ audit.load_time }} seconds</td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- Executive Summary -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <strong>Executive Summary</strong>
+
+        </div>
+
+        <div class="card-body">
+
+            {{ audit.executive_summary }}
+
+        </div>
+
+    </div>
+
+    <!-- Existing recommendation sections remain unchanged -->
+
+    <!-- Critical -->
+    <!-- High -->
+    <!-- Medium -->
+    <!-- Good Practices -->
+
+</div>
+
+{% endblock %}

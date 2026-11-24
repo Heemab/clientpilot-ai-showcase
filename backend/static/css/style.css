@@ -1,0 +1,178 @@
+/* =========================================================
+   CLIENTPILOT AI
+   style.css
+   Internal Application Styles
+========================================================= */
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+body{
+    font-family:Inter,sans-serif;
+    line-height:1.6;
+}
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    font-weight:700;
+    color:#1e293b;
+}
+
+h2{
+    margin-bottom:1rem;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card{
+    border:none;
+    border-radius:14px;
+    box-shadow:0 2px 10px rgba(15,23,42,.06);
+    transition:all .25s ease;
+}
+
+.card:hover{
+    box-shadow:0 8px 24px rgba(15,23,42,.10);
+}
+
+.card-header{
+    background:#fff;
+    border-bottom:1px solid #e2e8f0;
+    border-radius:14px 14px 0 0 !important;
+    font-weight:600;
+    padding:1rem 1.25rem;
+}
+
+.card-body{
+    padding:1.25rem;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+    border-radius:10px;
+    font-weight:600;
+    transition:all .2s ease;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-primary{
+    background:#2563eb;
+    border-color:#2563eb;
+}
+
+.btn-primary:hover{
+    background:#1d4ed8;
+    border-color:#1d4ed8;
+}
+
+.btn-success{
+    border-radius:10px;
+}
+
+.btn-danger{
+    border-radius:10px;
+}
+
+.btn-warning{
+    border-radius:10px;
+}
+
+.btn-secondary{
+    border-radius:10px;
+}
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+.form-control,
+.form-select{
+    border-radius:10px;
+    padding:.65rem .9rem;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:none;
+    border-color:#2563eb;
+}
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.table{
+    vertical-align:middle;
+}
+
+.table th{
+    font-weight:600;
+    color:#475569;
+    border-bottom-width:1px;
+}
+
+.table td{
+    padding:.85rem;
+}
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.badge{
+    border-radius:8px;
+    padding:.45rem .7rem;
+    font-weight:600;
+}
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.modal-content{
+    border:none;
+    border-radius:16px;
+}
+
+/* =========================================================
+   DROPDOWNS
+========================================================= */
+
+.dropdown-menu{
+    border:none;
+    border-radius:12px;
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width:768px){
+
+    .card-body{
+        padding:1rem;
+    }
+
+    h2{
+        font-size:1.5rem;
+    }
+
+}

@@ -1,0 +1,234 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            Dashboard
+        </h2>
+
+        <p class="text-muted">
+            Welcome to the AI Client Acquisition Engine.
+        </p>
+
+    </div>
+
+    {% if demo_mode %}
+    <div class="alert alert-primary border-0 shadow-sm mb-4">
+        <strong>🚀 Demo Mode</strong><br>
+        You're exploring ClientPilot AI using sample statistics. Start discovering businesses to populate your own data.
+    </div>
+    {% endif %}
+
+    <!-- Statistics -->
+    <div class="row">
+
+        {% include "components/dashboard/stat_card.html" with title="Total Leads" value=total_leads %}
+        {% include "components/dashboard/stat_card.html" with title="Website Audits" value=total_audits %}
+        {% include "components/dashboard/stat_card.html" with title="Proposals" value=total_proposals %}
+        {% include "components/dashboard/stat_card.html" with title="Outreach" value=total_outreach %}
+        {% include "components/dashboard/stat_card.html" with title="New Leads" value=new_leads %}
+        {% include "components/dashboard/stat_card.html" with title="Qualified Leads" value=qualified_leads %}
+        {% include "components/dashboard/stat_card.html" with title="Won Leads" value=won_leads %}
+        {% include "components/dashboard/stat_card.html" with title="Lost Leads" value=lost_leads %}
+
+    </div>
+
+    <div class="row mt-4">
+
+        <!-- Recent Leads -->
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+                    <strong>Recent Leads</strong>
+                </div>
+
+                <div class="card-body">
+
+                    {% if recent_leads %}
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for lead in recent_leads %}
+
+                                <tr>
+
+                                    <td>{{ lead.company_name }}</td>
+
+                                    <td>
+                                        {% if lead.contact_name %}
+                                            {{ lead.contact_name }}
+                                        {% else %}
+                                            <span class="text-muted">
+                                                Not Available
+                                            </span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-primary">
+                                            {{ lead.get_status_display }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <a href="{% url 'leads:lead_detail' lead.pk %}"
+                                           class="btn btn-sm btn-outline-primary">
+                                            View
+                                        </a>
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    {% else %}
+
+                        {% if demo_mode %}
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>Bright Dental Clinic</td>
+                                    <td>Sarah Johnson</td>
+                                    <td><span class="badge bg-success">Qualified</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>NorthStar Accounting</td>
+                                    <td>Michael Brown</td>
+                                    <td><span class="badge bg-warning text-dark">New</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Elite Roofing Ltd</td>
+                                    <td>David Wilson</td>
+                                    <td><span class="badge bg-info">Proposal Sent</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Prime Legal Group</td>
+                                    <td>Emma Davis</td>
+                                    <td><span class="badge bg-primary">Follow Up</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>GreenTech Solar</td>
+                                    <td>James Miller</td>
+                                    <td><span class="badge bg-success">Won</span></td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                        {% else %}
+
+                        <div class="text-center py-4">
+
+                            <p class="text-muted mb-3">
+                                No leads available.
+                            </p>
+
+                            <a href="{% url 'discovery:index' %}"
+                               class="btn btn-primary">
+                                Discover Businesses
+                            </a>
+
+                        </div>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+                    <strong>Quick Actions</strong>
+                </div>
+
+                <div class="card-body d-grid gap-2">
+
+                    <a href="{% url 'discovery:index' %}"
+                       class="btn btn-primary">
+                        🔍 Discover Businesses
+                    </a>
+
+                    <a href="{% url 'leads:create' %}"
+                       class="btn btn-success">
+                        ➕ Create Lead
+                    </a>
+
+                    <a href="{% url 'leads:list' %}"
+                       class="btn btn-outline-success">
+                        👥 View Leads
+                    </a>
+
+                    <a href="{% url 'audits:list' %}"
+                       class="btn btn-warning">
+                        🌐 Website Intelligence
+                    </a>
+
+                    <a href="{% url 'proposals:list' %}"
+                       class="btn btn-info">
+                        📄 Proposals
+                    </a>
+
+                    <a href="{% url 'outreach:outreach_list' %}"
+                       class="btn btn-dark">
+                        📧 Outreach
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container my-5">
+
+    <div class="card shadow-lg border-0">
+
+        <div class="card-body p-5">
+
+            <!-- Header -->
+
+            <div class="d-flex justify-content-between align-items-start mb-5">
+
+                <div>
+
+                    <h1 class="mb-2">
+                        Website Growth Proposal
+                    </h1>
+
+                    <h4 class="text-muted">
+                        {{ proposal.lead.company_name }}
+                    </h4>
+
+                    <a href="{{ proposal.lead.website }}" target="_blank">
+                        {{ proposal.lead.website }}
+                    </a>
+
+                </div>
+
+                <div class="text-end">
+
+                    <p class="mb-1">
+                        <strong>Proposal #</strong><br>
+                        {{ proposal.proposal_number }}
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Status</strong><br>
+                        {{ proposal.get_status_display }}
+                    </p>
+
+                    <p class="mb-3">
+                        <strong>Date</strong><br>
+                        {{ proposal.created_at|date:"d F Y" }}
+                    </p>
+
+                    <a href="{% url 'proposals:proposal_pdf' proposal.id %}"
+                       class="btn btn-danger">
+                        📄 Download PDF
+                    </a>
+
+                    <form method="post" action="{% url 'outreach:generate_outreach' proposal.id %}" class="d-inline">
+{% csrf_token %}
+<button type="submit"
+                        class="btn btn-primary mt-2">
+                        ✉️ Generate Outreach
+                    </button>
+</form>
+
+                </div>
+
+            </div>
+
+            <hr class="mb-5">
+
+            <!-- Executive Summary -->
+
+            <h3 class="mb-3">
+                Executive Summary
+            </h3>
+
+            <p class="lead">
+                {{ proposal.executive_summary }}
+            </p>
+
+            <hr class="my-5">
+
+            <!-- Recommended Services -->
+
+            <h3 class="mb-3">
+                Recommended Services
+            </h3>
+
+            {% if proposal.audit.opportunities %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Service</th>
+
+                            <th>Priority</th>
+
+                            <th class="text-center">
+                                Hours
+                            </th>
+
+                            <th class="text-end">
+                                Investment
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for item in proposal.audit.opportunities %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>{{ item.service }}</strong><br>
+
+                                <small class="text-muted">
+                                    {{ item.reason }}
+                                </small>
+
+                            </td>
+
+                            <td>
+
+                                {% if item.priority == "Critical" %}
+                                    <span class="badge bg-danger">
+                                {% elif item.priority == "High" %}
+                                    <span class="badge bg-warning text-dark">
+                                {% elif item.priority == "Medium" %}
+                                    <span class="badge bg-info text-dark">
+                                {% else %}
+                                    <span class="badge bg-secondary">
+                                {% endif %}
+
+                                    {{ item.priority }}
+
+                                </span>
+
+                            </td>
+
+                            <td class="text-center">
+
+                                {{ item.estimated_hours }}
+
+                            </td>
+
+                            <td class="text-end">
+
+                                ${{ item.estimated_value }}
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <div class="alert alert-info">
+                    No recommendations were generated for this proposal.
+                </div>
+
+            {% endif %}
+
+            <hr class="my-5">
+
+            <!-- Project Summary -->
+
+            <h3 class="mb-4">
+                Project Summary
+            </h3>
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <div class="border rounded p-4 text-center">
+
+                        <h6 class="text-muted">
+                            Estimated Hours
+                        </h6>
+
+                        <h2>
+                            {{ proposal.estimated_hours }}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="border rounded p-4 text-center">
+
+                        <h6 class="text-muted">
+                            Timeline
+                        </h6>
+
+                        <h2>
+
+                            {% if proposal.estimated_timeline %}
+                                {{ proposal.estimated_timeline }}
+                            {% else %}
+                                To Be Confirmed
+                            {% endif %}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="border rounded p-4 text-center">
+
+                        <h6 class="text-muted">
+                            Investment
+                        </h6>
+
+                        <h2 class="text-success">
+
+                            ${{ proposal.estimated_value }}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <hr class="my-5">
+
+            <!-- Expected Outcomes -->
+
+            <h3 class="mb-3">
+                Expected Outcomes
+            </h3>
+
+            <ul>
+
+                <li>Improved search engine visibility</li>
+
+                <li>Better user experience</li>
+
+                <li>Higher website performance</li>
+
+                <li>Improved accessibility compliance</li>
+
+                <li>Long-term website stability</li>
+
+            </ul>
+
+            <hr class="my-5">
+
+            <!-- Next Steps -->
+
+            <h3 class="mb-3">
+                Next Steps
+            </h3>
+
+            <p>
+
+                Once approved, we'll schedule the implementation, provide regular progress updates, and deliver all agreed improvements within the proposed timeline.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

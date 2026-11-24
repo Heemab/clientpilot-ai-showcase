@@ -1,0 +1,9 @@
+DEFAULT_COUNTRY = "United States"
+
+DEFAULT_CITY = "New York"
+
+DEFAULT_INDUSTRY = "Dentists"
+
+MAX_RESULTS = 20
+
+SEARCH_DELAY = 2

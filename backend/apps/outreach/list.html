@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container my-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h1>Outreach Dashboard</h1>
+
+        <span class="badge bg-primary fs-6">
+            {{ outreach_list|length }} Packages
+        </span>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Company</th>
+
+                        <th>Website</th>
+
+                        <th>Investment</th>
+
+                        <th>Created</th>
+
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for outreach in outreach_list %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                {{ outreach.proposal.lead.company_name }}
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ outreach.proposal.lead.website }}"
+                               target="_blank">
+
+                                {{ outreach.proposal.lead.website }}
+
+                            </a>
+
+                        </td>
+
+                        <td>
+
+                            ${{ outreach.proposal.estimated_value }}
+
+                        </td>
+
+                        <td>
+
+                            {{ outreach.created_at|date:"d M Y" }}
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <a href="{% url 'outreach:outreach_detail' outreach.id %}"
+                               class="btn btn-sm btn-primary">
+
+                                View
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="5" class="text-center py-5">
+
+                            No outreach packages have been generated yet.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

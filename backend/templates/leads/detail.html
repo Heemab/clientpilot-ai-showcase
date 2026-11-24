@@ -1,0 +1,914 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Lead 360 Dashboard{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container-fluid">
+
+    <!-- ===========================
+         HEADER
+    ============================ -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                {{ lead.company_name }}
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                {{ lead.website }}
+
+            </p>
+
+        </div>
+
+        <span class="badge bg-primary fs-6">
+
+            {{ lead.get_status_display }}
+
+        </span>
+
+    </div>
+
+    <!-- ===========================
+         PIPELINE SUMMARY
+    ============================ -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Website Audit</h6>
+
+                    {% if audits %}
+
+                        <span class="badge bg-success fs-6">
+
+                            ✓ Completed
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-secondary fs-6">
+
+                            Pending
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Proposal</h6>
+
+                    {% if latest_proposal %}
+
+                        <span class="badge bg-success fs-6">
+
+                            ✓ Generated
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-secondary fs-6">
+
+                            Pending
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Outreach</h6>
+
+                    {% if latest_outreach %}
+
+                        <span class="badge bg-success fs-6">
+
+                            ✓ Ready
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-secondary fs-6">
+
+                            Pending
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===========================
+         LEAD INFORMATION
+    ============================ -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <strong>Lead Information</strong>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered align-middle mb-0">
+
+                <tr>
+                    <th width="220">Company</th>
+                    <td>{{ lead.company_name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Website</th>
+                    <td>
+                        <a href="{{ lead.website }}" target="_blank">
+                            {{ lead.website }}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Category</th>
+                    <td>{{ lead.category }}</td>
+                </tr>
+
+                <tr>
+                    <th>Address</th>
+                    <td>{{ lead.address }}</td>
+                </tr>
+
+                <tr>
+                    <th>Rating</th>
+                    <td>{{ lead.rating }} ⭐</td>
+                </tr>
+
+                <tr>
+                    <th>Reviews</th>
+                    <td>{{ lead.reviews }}</td>
+                </tr>
+
+                <tr>
+                    <th>Source</th>
+                    <td>{{ lead.source }}</td>
+                </tr>
+
+                <tr>
+                    <th>Contact Person</th>
+                    <td>{{ lead.contact_name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Email</th>
+                    <td>
+                        {% if lead.email %}
+                            {{ lead.email }}
+                        {% else %}
+                            <span class="text-danger">
+                                Not Available
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Phone</th>
+                    <td>
+                        {% if lead.phone %}
+                            {{ lead.phone }}
+                        {% else %}
+                            <span class="text-danger">
+                                Not Available
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Status</th>
+                    <td>{{ lead.get_status_display }}</td>
+                </tr>
+
+                <tr>
+                    <th>Assigned To</th>
+                    <td>{{ lead.assigned_to }}</td>
+                </tr>
+
+                <tr>
+                    <th>Organization</th>
+                    <td>{{ lead.organization }}</td>
+                </tr>
+
+                <tr>
+                    <th>Created</th>
+                    <td>{{ lead.created_at }}</td>
+                </tr>
+
+                <tr>
+                    <th>Updated</th>
+                    <td>{{ lead.updated_at }}</td>
+                </tr>
+
+                <tr>
+                    <th>Notes</th>
+                    <td>{{ lead.notes|linebreaks }}</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- ===========================
+         WORKFLOW ACTIONS
+    ============================ -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <strong>Workflow Actions</strong>
+
+        </div>
+
+        <div class="card-body d-flex flex-wrap gap-2">
+
+            {% if audits %}
+
+                <a href="{% url 'audits:detail' audits.first.id %}"
+                   class="btn btn-success">
+
+                    View Audit
+
+                </a>
+
+                <form
+                    method="post"
+                    action="{% url 'leads:pipeline' lead.pk %}"
+                    class="d-inline">
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        🚀 Run CRM Pipeline
+
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <form method="post" action="{% url 'audits:run' lead.pk %}" class="d-inline">
+{% csrf_token %}
+<button type="submit"
+                   class="btn btn-warning">
+
+                    Run Website Audit
+
+                </button>
+</form>
+
+            {% endif %}
+
+            {% if latest_proposal %}
+
+                <a href="{% url 'proposals:proposal_detail' latest_proposal.id %}"
+                   class="btn btn-primary">
+
+                    View Proposal
+
+                </a>
+
+                <a href="{% url 'proposals:proposal_pdf' latest_proposal.id %}"
+                   class="btn btn-outline-primary">
+
+                    Download PDF
+
+                </a>
+
+            {% endif %}
+
+            {% if latest_outreach %}
+
+                <a href="{% url 'outreach:outreach_detail' latest_outreach.id %}"
+                   class="btn btn-dark">
+
+                    View Outreach
+
+                </a>
+
+            {% elif latest_proposal %}
+
+                <form method="post" action="{% url 'outreach:generate_outreach' latest_proposal.id %}" class="d-inline">
+{% csrf_token %}
+<button type="submit"
+                   class="btn btn-dark">
+
+                    Generate Outreach
+
+                </button>
+</form>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+        <!-- ===========================
+         PROPOSAL HISTORY
+    ============================ -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <strong>Proposal History</strong>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if proposals %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th width="140">Action</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for proposal in proposals %}
+
+                            <tr>
+
+                                <td>
+
+                                    {{ proposal.created_at|date:"M d, Y H:i" }}
+
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-success">
+
+                                        Generated
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <a
+                                        href="{% url 'proposals:proposal_detail' proposal.id %}"
+                                        class="btn btn-sm btn-outline-primary">
+
+                                        View
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <p class="text-muted mb-0">
+
+                    No proposals generated yet.
+
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- ===========================
+         OUTREACH HISTORY
+    ============================ -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <strong>Outreach History</strong>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if outreach_history %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Created</th>
+                                <th>Status</th>
+                                <th>Recipient</th>
+                                <th width="140">Action</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for outreach in outreach_history %}
+
+                            <tr>
+
+                                <td>
+
+                                    {{ outreach.created_at|date:"M d, Y H:i" }}
+
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-dark">
+
+                                        {{ outreach.get_status_display }}
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    {{ outreach.proposal.lead.email }}
+
+                                </td>
+
+                                <td>
+
+                                    <a
+                                        href="{% url 'outreach:outreach_detail' outreach.id %}"
+                                        class="btn btn-sm btn-outline-dark">
+
+                                        Open
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <p class="text-muted mb-0">
+
+                    No outreach has been generated.
+
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- ===========================
+     CRM TASKS
+    =========================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+            <strong>CRM Tasks</strong>
+
+            <a
+                href="{% url 'leads:task_create' lead.pk %}"
+                class="btn btn-sm btn-primary">
+
+                + Add Task
+
+            </a>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if tasks %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Task</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Assigned To</th>
+                                <th>Due Date</th>
+                                <th width="220">Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        {% for task in tasks %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>{{ task.title }}</strong>
+
+                                {% if task.description %}
+
+                                    <br>
+
+                                    <small class="text-muted">
+
+                                        {{ task.description|truncatechars:70 }}
+
+                                    </small>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if task.priority == "urgent" %}
+                                    <span class="badge bg-danger">Urgent</span>
+
+                                {% elif task.priority == "high" %}
+                                    <span class="badge bg-warning text-dark">High</span>
+
+                                {% elif task.priority == "medium" %}
+                                    <span class="badge bg-primary">Medium</span>
+
+                                {% else %}
+                                    <span class="badge bg-secondary">Low</span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if task.status == "completed" %}
+                                    <span class="badge bg-success">
+
+                                        Completed
+
+                                    </span>
+
+                                {% elif task.status == "in_progress" %}
+                                    <span class="badge bg-info">
+
+                                        In Progress
+
+                                    </span>
+
+                                {% elif task.status == "cancelled" %}
+                                    <span class="badge bg-dark">
+
+                                        Cancelled
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        To Do
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ task.assigned_to|default:"Unassigned" }}
+
+                            </td>
+
+                            <td>
+
+                                {% if task.due_date %}
+
+                                    {{ task.due_date|date:"M d, Y H:i" }}
+
+                                    {% if task.is_overdue %}
+                                        <br>
+                                        <span class="badge bg-danger">
+                                            Overdue
+                                        </span>
+                                    {% endif %}
+
+                                {% else %}
+
+                                    —
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <div class="btn-group">
+
+                                    {% if task.status != "completed" %}
+
+                                        <form
+                                            method="post"
+                                            action="{% url 'leads:task_complete' task.id %}">
+
+                                            {% csrf_token %}
+
+                                            <button
+                                                class="btn btn-success btn-sm">
+
+                                                ✓
+
+                                            </button>
+
+                                        </form>
+
+                                    {% endif %}
+
+                                    <a
+                                        href="{% url 'leads:task_edit' task.id %}"
+                                        class="btn btn-warning btn-sm">
+
+                                        Edit
+
+                                    </a>
+
+                                    <form
+                                        method="post"
+                                        action="{% url 'leads:task_delete' task.id %}">
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Delete this task?')">
+
+                                            Delete
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="text-center py-4">
+
+                <h6 class="text-muted">
+
+                    No tasks yet.
+
+                </h6>
+
+                <p class="text-muted">
+
+                    Create your first CRM task for this lead.
+
+                </p>
+
+                <a
+                    href="{% url 'leads:task_create' lead.pk %}"
+                    class="btn btn-primary">
+
+                    Create First Task
+
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+    <!-- ===========================
+         CRM TIMELINE
+    ============================ -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <strong>CRM Activity Timeline</strong>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if timeline %}
+
+                <ul class="list-group list-group-flush">
+
+                    {% for event in timeline %}
+
+                        <li class="list-group-item">
+
+                            <div class="d-flex justify-content-between">
+
+                                <div>
+
+                                    <strong>
+
+                                        {{ event.get_event_type_display }}
+
+                                    </strong>
+
+                                    {% if event.notes %}
+
+                                        <br>
+
+                                        <small class="text-muted">
+
+                                            {{ event.notes }}
+
+                                        </small>
+
+                                    {% endif %}
+
+                                    {% if event.created_by %}
+
+                                        <br>
+
+                                        <small>
+
+                                            By {{ event.created_by }}
+
+                                        </small>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <small class="text-muted">
+
+                                    {{ event.created_at|date:"M d, Y H:i" }}
+
+                                </small>
+
+                            </div>
+
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            {% else %}
+
+                <p class="text-muted mb-0">
+
+                    No CRM activity recorded yet.
+
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- ===========================
+         NAVIGATION
+    ============================ -->
+
+    <div class="d-flex justify-content-between">
+
+        <a
+            href="{% url 'leads:list' %}"
+            class="btn btn-secondary">
+
+            ← Back to Leads
+
+        </a>
+
+        <div class="d-flex gap-2">
+
+            <a
+                href="{% url 'leads:lead_edit' lead.pk %}"
+                class="btn btn-primary">
+
+                Edit Lead
+
+            </a>
+
+            <a
+                href="{% url 'leads:lead_delete' lead.pk %}"
+                class="btn btn-danger">
+
+                Delete Lead
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

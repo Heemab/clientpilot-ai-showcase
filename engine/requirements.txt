@@ -1,0 +1,3 @@
+-r ../backend/requirements.txt
+duckduckgo-search==8.1.1
+rich==15.0.0

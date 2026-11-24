@@ -1,0 +1,187 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Website Intelligence{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">Website Intelligence</h2>
+
+            <p class="text-muted mb-0">
+                Website audit reports for your organization.
+            </p>
+        </div>
+
+        <a href="{% url 'dashboard:index' %}"
+           class="btn btn-outline-secondary">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+    {% if audits %}
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th style="min-width:220px;">
+                                Company
+                            </th>
+
+                            <th style="min-width:320px;">
+                                Website
+                            </th>
+
+                            <th class="text-center">
+                                Overall
+                            </th>
+
+                            <th class="text-center">
+                                SEO
+                            </th>
+
+                            <th class="text-center">
+                                Performance
+                            </th>
+
+                            <th style="min-width:120px;">
+                                Date
+                            </th>
+
+                            <th style="width:140px;">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for audit in audits %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{ audit.lead.company_name }}
+                                </strong>
+
+                            </td>
+
+                            <td>
+
+                                {% if audit.website %}
+
+                                <a
+                                    href="{{ audit.website }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="text-decoration-none d-inline-block text-break"
+                                    style="max-width:300px;"
+                                >
+                                    {{ audit.website }}
+                                </a>
+
+                                {% else %}
+
+                                <span class="text-muted">
+                                    Not Available
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td class="text-center">
+
+                                <strong>
+                                    {{ audit.overall_score }}
+                                </strong>
+
+                            </td>
+
+                            <td class="text-center">
+                                {{ audit.seo_score }}
+                            </td>
+
+                            <td class="text-center">
+                                {{ audit.performance_score }}
+                            </td>
+
+                            <td>
+                                {{ audit.created_at|date:"d M Y" }}
+                            </td>
+
+                            <td>
+
+                                <a
+                                    href="{% url 'audits:detail' audit.pk %}"
+                                    class="btn btn-primary btn-sm w-100"
+                                >
+                                    View Report
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body text-center py-5">
+
+            <h4>
+                No Website Audits Yet
+            </h4>
+
+            <p class="text-muted">
+
+                Run a website audit from any lead to generate
+                your first AI audit report.
+
+            </p>
+
+            <a href="{% url 'leads:list' %}"
+               class="btn btn-primary">
+
+                Go to Leads
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
