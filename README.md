@@ -13,7 +13,7 @@ ClientPilot AI is a Django application for small agencies and consultants who ne
 
 ## Architecture
 
-The web application uses Python, Django 6, server-rendered templates, Django ORM, and PostgreSQL. HTTP and HTML processing use Requests and Beautiful Soup. PDF export uses xhtml2pdf. The sibling `engine/` contains Python services and standalone tools with their own SQLite storage. The draft API adapter for that engine is disabled in the web URL configuration.
+The web application uses Python, Django 6, server-rendered templates, Django ORM, and PostgreSQL or SQLite for the loopback demo. HTTP and HTML processing use Requests and Beautiful Soup. PDF export uses xhtml2pdf. The sibling `engine/` contains Python services and standalone tools with their own SQLite storage. The draft API adapter for that engine is disabled in the web URL configuration.
 
 ```mermaid
 flowchart LR
@@ -25,7 +25,7 @@ flowchart LR
     P --> D[Outreach template and review]
     D -->|User sends| M[SMTP]
     C --> T[Pipeline and follow-up calendar]
-    C --> DB[(PostgreSQL)]
+    C --> DB[(PostgreSQL or demo SQLite)]
     D --> DB
     E[Standalone Python engine] --> L[(Local SQLite)]
 ```
@@ -36,7 +36,21 @@ flowchart LR
 
 **Planned or scaffolded.** The engine contains LLM configuration and an outreach extension point for future model integration. LinkedIn discovery and the direct Google Search connector are stubs. The Django REST API routes are disabled. The standalone engine dependencies can be installed separately with `python -m pip install -r engine/requirements.txt`. Follow-up assets and tasks support a human-operated workflow. Scheduled campaigns and automatic multichannel delivery are outside the implemented workflow.
 
-## Run locally
+## Run the SQLite demo
+
+Use Python 3.12 or later. This mode needs no PostgreSQL server, SerpApi key, or SMTP credentials.
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r backend/requirements.txt
+Set-Location backend
+..\.venv\Scripts\python.exe manage.py migrate --settings=config.showcase_settings
+..\.venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000 --noreload --settings=config.showcase_settings
+```
+
+On macOS/Linux, use `.venv/bin/python` from the root and `../.venv/bin/python` from `backend/`. Open `http://127.0.0.1:8000/` and register with a fictional organization and an example email. In a second shell from `backend/`, run `..\.venv\Scripts\python.exe manage.py seed_demo --username <your-local-username> --settings=config.showcase_settings`. The ignored SQLite file persists between runs. Each server process generates a signing key, so sign in again after restarting. Discovery uses fictional results and email stays in process memory. Website assessments still require a public website you control. The offline test suite exercises that step with a synthetic response.
+
+## Run with PostgreSQL
 
 Use Python 3.12 or later and a local PostgreSQL instance. Create a dedicated database owned by a development role. From an administrative psql session, run:
 

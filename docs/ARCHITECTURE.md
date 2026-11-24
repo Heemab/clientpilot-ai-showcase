@@ -1,11 +1,11 @@
 # Architecture
 
-The Django 6 web app renders templates and stores accounts, organizations, leads, audit records, proposals, tasks, and outreach in PostgreSQL. A discovery provider normalizes SerpApi Google Maps results for import. A prospect website assessment records HTML and HTTPS signals and calculates recommendations with deterministic rules. Proposals use those findings, xhtml2pdf renders downloadable PDFs, and a user can send an outreach draft through SMTP.
+The Django 6 web app renders templates and stores accounts, organizations, leads, audit records, proposals, tasks, and outreach in PostgreSQL. The loopback demo uses the same ORM and migrations with a separate local SQLite database, synthetic discovery, and in-memory email. A discovery provider normalizes SerpApi Google Maps results for import. A prospect website assessment records HTML and HTTPS signals and calculates recommendations with deterministic rules. Proposals use those findings, xhtml2pdf renders downloadable PDFs, and a user can send an outreach draft through SMTP.
 
 ```mermaid
 flowchart LR
   Browser --> Django
-  Django --> PostgreSQL
+  Django --> AppDB[(PostgreSQL or demo SQLite)]
   Django -->|Discovery| SerpApi
   Django -->|Prospect assessment| Egress[Validated HTTP fetch]
   Egress --> PublicSite[Public website]
